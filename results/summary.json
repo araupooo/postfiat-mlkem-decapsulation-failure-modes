@@ -1,0 +1,251 @@
+{
+  "pinned_commit": "0085a1ff885d6a446369cf73a4430f75af22be55",
+  "implementations": {
+    "A": "pyca/cryptography 50.0.2",
+    "B": "liboqs 0.16.0",
+    "C": "pure-Python FIPS 203 (scripts/mlkem_py.py)"
+  },
+  "total": 34,
+  "passed": 34,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "K01",
+      "kind": "TESTED",
+      "title": "NIST ACVP keyGen KAT ML-KEM-512",
+      "hypothesis": "Impl C reproduces the NIST ACVP keyGen vectors for ML-KEM-512 exactly.",
+      "result": "PASS"
+    },
+    {
+      "id": "K02",
+      "kind": "TESTED",
+      "title": "NIST ACVP keyGen KAT ML-KEM-768",
+      "hypothesis": "Impl C reproduces the NIST ACVP keyGen vectors for ML-KEM-768 exactly.",
+      "result": "PASS"
+    },
+    {
+      "id": "K03",
+      "kind": "TESTED",
+      "title": "NIST ACVP keyGen KAT ML-KEM-1024",
+      "hypothesis": "Impl C reproduces the NIST ACVP keyGen vectors for ML-KEM-1024 exactly.",
+      "result": "PASS"
+    },
+    {
+      "id": "K04",
+      "kind": "TESTED",
+      "title": "NIST ACVP encapsulation KAT ML-KEM-512",
+      "hypothesis": "Impl C Encaps_internal reproduces the NIST ACVP vectors for ML-KEM-512.",
+      "result": "PASS"
+    },
+    {
+      "id": "K05",
+      "kind": "TESTED",
+      "title": "NIST ACVP encapsulation KAT ML-KEM-768",
+      "hypothesis": "Impl C Encaps_internal reproduces the NIST ACVP vectors for ML-KEM-768.",
+      "result": "PASS"
+    },
+    {
+      "id": "K06",
+      "kind": "TESTED",
+      "title": "NIST ACVP encapsulation KAT ML-KEM-1024",
+      "hypothesis": "Impl C Encaps_internal reproduces the NIST ACVP vectors for ML-KEM-1024.",
+      "result": "PASS"
+    },
+    {
+      "id": "K07",
+      "kind": "TESTED",
+      "title": "NIST ACVP decapsulation KAT ML-KEM-512",
+      "hypothesis": "Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-512.",
+      "result": "PASS"
+    },
+    {
+      "id": "K08",
+      "kind": "TESTED",
+      "title": "NIST ACVP decapsulation KAT ML-KEM-768",
+      "hypothesis": "Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-768.",
+      "result": "PASS"
+    },
+    {
+      "id": "K09",
+      "kind": "TESTED",
+      "title": "NIST ACVP decapsulation KAT ML-KEM-1024",
+      "hypothesis": "Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-1024.",
+      "result": "PASS"
+    },
+    {
+      "id": "K10",
+      "kind": "TESTED",
+      "title": "Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-768",
+      "hypothesis": "Impl A reproduces the expected shared secrets for the Wycheproof seed-pinned ML-KEM-768 decapsulation cases (including the CCTV strcmp and malleable-ciphertext traps).",
+      "result": "PASS"
+    },
+    {
+      "id": "K11",
+      "kind": "TESTED",
+      "title": "Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-1024",
+      "hypothesis": "Impl A reproduces the expected shared secrets for the Wycheproof seed-pinned ML-KEM-1024 decapsulation cases (including the CCTV strcmp and malleable-ciphertext traps).",
+      "result": "PASS"
+    },
+    {
+      "id": "K12",
+      "kind": "TESTED",
+      "title": "Impl A key/ciphertext sizes match FIPS 203 Table 2",
+      "hypothesis": "Impl A ML-KEM-768/1024 encapsulation-key, ciphertext and shared-secret sizes equal FIPS 203 Table 2 (ML-KEM-512 is not exposed by this build of pyca/cryptography; the decapsulation key is stored as the 64-byte seed, FIPS 203 \u00a77.2 internal form).",
+      "result": "PASS"
+    },
+    {
+      "id": "K13",
+      "kind": "TESTED",
+      "title": "Impl B key/ciphertext sizes match FIPS 203 Table 2",
+      "hypothesis": "Impl B sizes for ML-KEM-512/768/1024 equal FIPS 203 Table 2.",
+      "result": "PASS"
+    },
+    {
+      "id": "K14",
+      "kind": "TESTED",
+      "title": "Impl B fresh-keypair round-trip, all parameter sets",
+      "hypothesis": "Impl B encaps/decaps round-trips agree for fresh keypairs (10 per set).",
+      "result": "PASS"
+    },
+    {
+      "id": "K15",
+      "kind": "TESTED",
+      "title": "Impl B encapsulates under Impl C keys, all parameter sets",
+      "hypothesis": "A ciphertext produced by Impl B under an Impl C encapsulation key decapsulates to the same secret in Impl C (FIPS 203 wire-format interop).",
+      "result": "PASS"
+    },
+    {
+      "id": "K16",
+      "kind": "TESTED",
+      "title": "Impl C encapsulates under Impl B keys, all parameter sets",
+      "hypothesis": "A ciphertext produced by Impl C under an Impl B encapsulation key decapsulates to the same secret in Impl B.",
+      "result": "PASS"
+    },
+    {
+      "id": "K17",
+      "kind": "TESTED",
+      "title": "Impl A encapsulates under Impl C keys (768/1024)",
+      "hypothesis": "A ciphertext produced by Impl A under an Impl C encapsulation key decapsulates to the same secret in Impl C.",
+      "result": "PASS"
+    },
+    {
+      "id": "K18",
+      "kind": "TESTED",
+      "title": "Impl C encapsulates under Impl A keys (768/1024)",
+      "hypothesis": "A ciphertext produced by Impl C under an Impl A encapsulation key decapsulates to the same secret in Impl A.",
+      "result": "PASS"
+    },
+    {
+      "id": "K19",
+      "kind": "TESTED",
+      "title": "Implicit rejection, ML-KEM-512 (Impl B + Impl C)",
+      "hypothesis": "A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error (FIPS 203 \u00a77.3).",
+      "result": "PASS"
+    },
+    {
+      "id": "K20",
+      "kind": "TESTED",
+      "title": "Implicit rejection, ML-KEM-768 (Impl A + B + C)",
+      "hypothesis": "A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error, in all three implementations.",
+      "result": "PASS"
+    },
+    {
+      "id": "K21",
+      "kind": "TESTED",
+      "title": "Implicit rejection, ML-KEM-1024 (Impl A + B + C)",
+      "hypothesis": "A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error, in all three implementations.",
+      "result": "PASS"
+    },
+    {
+      "id": "K22",
+      "kind": "TESTED",
+      "title": "Implicit rejection is deterministic (J(z || c))",
+      "hypothesis": "Decapsulating the same invalid ciphertext twice returns the identical pseudorandom secret (FIPS 203 \u00a77.3: K = J(z || c)).",
+      "result": "PASS"
+    },
+    {
+      "id": "K23",
+      "kind": "TESTED",
+      "title": "All-zero ciphertext is implicitly rejected",
+      "hypothesis": "An all-zero ciphertext decapsulates to a 32-byte secret different from the valid secret, with no error.",
+      "result": "PASS"
+    },
+    {
+      "id": "K24",
+      "kind": "TESTED",
+      "title": "Single-bit-flipped valid ciphertext is implicitly rejected",
+      "hypothesis": "Flipping one bit of a valid ciphertext makes decapsulation return a different 32-byte secret with no error (re-encryption mismatch).",
+      "result": "PASS"
+    },
+    {
+      "id": "K25",
+      "kind": "TESTED",
+      "title": "Ciphertext from another keypair is implicitly rejected",
+      "hypothesis": "A valid ciphertext under Alice's key decapsulated with Bob's key returns a 32-byte secret different from both parties' valid secrets.",
+      "result": "PASS"
+    },
+    {
+      "id": "K26",
+      "kind": "TESTED",
+      "title": "No oracle signal: valid vs invalid decapsulation outputs",
+      "hypothesis": "Valid and invalid decapsulation are indistinguishable by return type, return length, and exception behaviour \u2014 no error signal leaks the validity of a ciphertext (timing not measured; see FINDINGS.md).",
+      "result": "PASS"
+    },
+    {
+      "id": "K27",
+      "kind": "TESTED",
+      "title": "Malformed-length inputs are rejected at the API boundary",
+      "hypothesis": "Truncated, empty, and oversized ciphertexts and decapsulation keys are rejected with an error (never a secret) by every implementation's checked entry point (FIPS 203 \u00a77.2/\u00a77.3 input validation).",
+      "result": "PASS"
+    },
+    {
+      "id": "K28",
+      "kind": "TESTED",
+      "title": "Wycheproof decapsulation cases, all parameter sets",
+      "hypothesis": "Impl C passes every Wycheproof ML-KEM decapsulation case: valid cases return K, malformed-length cases are rejected.",
+      "result": "PASS"
+    },
+    {
+      "id": "K29",
+      "kind": "TESTED",
+      "title": "CCTV strcmp + malleable-ciphertext trap cases",
+      "hypothesis": "The comparison in decapsulation covers the full ciphertext: the CCTV strcmp trap (difference hidden after a NUL byte) and the malleable-ciphertext cases (modification at byte 0) all return the implicit-rejection key, never the real key.",
+      "result": "PASS"
+    },
+    {
+      "id": "K30",
+      "kind": "TESTED",
+      "title": "Wycheproof semi-expanded decapsulation cases",
+      "hypothesis": "Decapsulation from an expanded decapsulation key: valid cases return K; wrong-length dk or ct are rejected (FIPS 203 \u00a77.3).",
+      "result": "PASS"
+    },
+    {
+      "id": "K31",
+      "kind": "TESTED",
+      "title": "Hybrid concat-KDF combiner failure behaviour",
+      "hypothesis": "A hybrid combiner built from X25519 + ML-KEM: a valid run is reproducible; an invalid ML-KEM ciphertext or a wrong classical peer key changes the hybrid secret silently (no error); malformed combiner inputs are rejected. Only key confirmation can detect the failure.",
+      "result": "PASS"
+    },
+    {
+      "id": "K32",
+      "kind": "TESTED",
+      "title": "Hybrid XOR combiner leaks component secrets",
+      "hypothesis": "An XOR combiner (hybrid = classical XOR ML-KEM): an invalid ML-KEM ciphertext changes the hybrid silently, and knowledge of one component recovers the other from the hybrid output.",
+      "result": "PASS"
+    },
+    {
+      "id": "K33",
+      "kind": "TESTED",
+      "title": "Pinned postfiatd tree contains no ML-KEM code",
+      "hypothesis": "The pinned postfiatd tree has zero ML-KEM/Kyber files: there are no ML-KEM encapsulation/decapsulation paths, ciphertext validation, or combiner logic to audit in-tree.",
+      "result": "PASS"
+    },
+    {
+      "id": "K34",
+      "kind": "TESTED",
+      "title": "CCTV unlucky-SampleNTT vectors, all parameter sets",
+      "hypothesis": "Impl C reproduces the CCTV 'unlucky' vectors: encapsulation of m under the file's ek gives exactly the file's K and c, and decapsulation of c under the file's dk returns K. These keys need an unusually large number of XOF reads in SampleNTT, so they exercise the sampler's stream sizing.",
+      "result": "PASS"
+    }
+  ]
+}
