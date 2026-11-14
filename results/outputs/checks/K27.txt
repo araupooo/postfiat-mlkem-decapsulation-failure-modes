@@ -1,0 +1,12 @@
+[CHECK K27] Malformed-length inputs are rejected at the API boundary (TESTED)
+  hypothesis: Truncated, empty, and oversized ciphertexts and decapsulation keys are rejected with an error (never a secret) by every implementation's checked entry point (FIPS 203 §7.2/§7.3 input validation).
+  result: PASS
+  Impl C ML-KEM-512: 6 malformed inputs -> ValueError OK
+  Impl B ML-KEM-512: 3 malformed ciphertexts -> ValueError OK
+  Impl C ML-KEM-768: 6 malformed inputs -> ValueError OK
+  Impl A ML-KEM-768: 3 malformed ciphertexts -> ValueError OK
+  Impl B ML-KEM-768: 3 malformed ciphertexts -> ValueError OK
+  Impl C ML-KEM-1024: 6 malformed inputs -> ValueError OK
+  Impl A ML-KEM-1024: 3 malformed ciphertexts -> ValueError OK
+  Impl B ML-KEM-1024: 3 malformed ciphertexts -> ValueError OK
+  NOTE: the bare FIPS 203 pseudocode (Algorithms 16-18) assumes well-formed inputs; length validation is a deployment requirement, not part of the math (F-04).

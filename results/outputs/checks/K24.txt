@@ -1,0 +1,11 @@
+[CHECK K24] Single-bit-flipped valid ciphertext is implicitly rejected (TESTED)
+  hypothesis: Flipping one bit of a valid ciphertext makes decapsulation return a different 32-byte secret with no error (re-encryption mismatch).
+  result: PASS
+  Impl C ML-KEM-512: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl B ML-KEM-512: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl C ML-KEM-768: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl A ML-KEM-768: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl B ML-KEM-768: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl C ML-KEM-1024: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl A ML-KEM-1024: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl B ML-KEM-1024: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK

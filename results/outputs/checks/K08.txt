@@ -1,0 +1,4 @@
+[CHECK K08] NIST ACVP decapsulation KAT ML-KEM-768 (TESTED)
+  hypothesis: Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-768.
+  result: PASS
+  10 decapsulation cases: (dk, c) -> K byte-identical to NIST ACVP vectors OK

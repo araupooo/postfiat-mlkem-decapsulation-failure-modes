@@ -1,0 +1,6 @@
+[CHECK K15] Impl B encapsulates under Impl C keys, all parameter sets (TESTED)
+  hypothesis: A ciphertext produced by Impl B under an Impl C encapsulation key decapsulates to the same secret in Impl C (FIPS 203 wire-format interop).
+  result: PASS
+  ML-KEM-512: B.encap(C.ek) -> C.decaps = same 32-byte secret OK
+  ML-KEM-768: B.encap(C.ek) -> C.decaps = same 32-byte secret OK
+  ML-KEM-1024: B.encap(C.ek) -> C.decaps = same 32-byte secret OK

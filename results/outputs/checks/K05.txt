@@ -1,0 +1,4 @@
+[CHECK K05] NIST ACVP encapsulation KAT ML-KEM-768 (TESTED)
+  hypothesis: Impl C Encaps_internal reproduces the NIST ACVP vectors for ML-KEM-768.
+  result: PASS
+  25 encapsulation cases: (ek, m) -> (c, K) byte-identical to NIST ACVP vectors OK

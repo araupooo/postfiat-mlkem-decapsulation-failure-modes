@@ -1,0 +1,14 @@
+[CHECK K31] Hybrid concat-KDF combiner failure behaviour (TESTED)
+  hypothesis: A hybrid combiner built from X25519 + ML-KEM: a valid run is reproducible; an invalid ML-KEM ciphertext or a wrong classical peer key changes the hybrid secret silently (no error); malformed combiner inputs are rejected. Only key confirmation can detect the failure.
+  result: PASS
+  ML-KEM-768: valid hybrid reproducible (32 bytes) OK
+  ML-KEM-768: invalid ML-KEM ct -> hybrid differs, no error (silent failure) OK
+  ML-KEM-768: wrong classical peer -> hybrid differs, no error (silent failure) OK
+  ML-KEM-768: transcript binding changes the hybrid key OK
+  ML-KEM-768: malformed combiner inputs rejected OK
+  ML-KEM-1024: valid hybrid reproducible (32 bytes) OK
+  ML-KEM-1024: invalid ML-KEM ct -> hybrid differs, no error (silent failure) OK
+  ML-KEM-1024: wrong classical peer -> hybrid differs, no error (silent failure) OK
+  ML-KEM-1024: transcript binding changes the hybrid key OK
+  ML-KEM-1024: malformed combiner inputs rejected OK
+  FINDING: neither component failure raises an error at the combiner layer; detection requires a key-confirmation step (see F-06).

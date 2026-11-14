@@ -1,0 +1,4 @@
+[CHECK K03] NIST ACVP keyGen KAT ML-KEM-1024 (TESTED)
+  hypothesis: Impl C reproduces the NIST ACVP keyGen vectors for ML-KEM-1024 exactly.
+  result: PASS
+  25 keyGen cases: d,z -> ek,dk byte-identical to NIST ACVP vectors (FIPS203) OK

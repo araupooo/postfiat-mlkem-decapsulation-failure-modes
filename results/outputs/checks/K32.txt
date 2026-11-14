@@ -1,0 +1,6 @@
+[CHECK K32] Hybrid XOR combiner leaks component secrets (TESTED)
+  hypothesis: An XOR combiner (hybrid = classical XOR ML-KEM): an invalid ML-KEM ciphertext changes the hybrid silently, and knowledge of one component recovers the other from the hybrid output.
+  result: PASS
+  invalid ML-KEM ct -> XOR hybrid differs, no error OK
+  hybrid XOR classical == ML-KEM secret: an attacker who learns the classical component recovers the ML-KEM component exactly OK
+  FINDING: prefer the concat-KDF combiner (K31); the XOR combiner must never be used where either component may be attacker-known (see F-05).

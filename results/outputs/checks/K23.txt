@@ -1,0 +1,11 @@
+[CHECK K23] All-zero ciphertext is implicitly rejected (TESTED)
+  hypothesis: An all-zero ciphertext decapsulates to a 32-byte secret different from the valid secret, with no error.
+  result: PASS
+  Impl C ML-KEM-512: zero ct -> 32-byte secret != valid OK
+  Impl B ML-KEM-512: zero ct -> 32-byte secret != valid OK
+  Impl C ML-KEM-768: zero ct -> 32-byte secret != valid OK
+  Impl A ML-KEM-768: zero ct -> 32-byte secret != valid OK
+  Impl B ML-KEM-768: zero ct -> 32-byte secret != valid OK
+  Impl C ML-KEM-1024: zero ct -> 32-byte secret != valid OK
+  Impl A ML-KEM-1024: zero ct -> 32-byte secret != valid OK
+  Impl B ML-KEM-1024: zero ct -> 32-byte secret != valid OK

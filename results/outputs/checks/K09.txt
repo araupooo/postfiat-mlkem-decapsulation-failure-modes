@@ -1,0 +1,4 @@
+[CHECK K09] NIST ACVP decapsulation KAT ML-KEM-1024 (TESTED)
+  hypothesis: Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-1024.
+  result: PASS
+  10 decapsulation cases: (dk, c) -> K byte-identical to NIST ACVP vectors OK

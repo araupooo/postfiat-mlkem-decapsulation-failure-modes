@@ -1,0 +1,7 @@
+[CHECK K34] CCTV unlucky-SampleNTT vectors, all parameter sets (TESTED)
+  hypothesis: Impl C reproduces the CCTV 'unlucky' vectors: encapsulation of m under the file's ek gives exactly the file's K and c, and decapsulation of c under the file's dk returns K. These keys need an unusually large number of XOF reads in SampleNTT, so they exercise the sampler's stream sizing.
+  result: PASS
+  ML-KEM-512: encaps(m) == (K, c) and decaps(c) == K OK
+  ML-KEM-768: encaps(m) == (K, c) and decaps(c) == K OK
+  ML-KEM-1024: encaps(m) == (K, c) and decaps(c) == K OK
+  NOTE: the file's (d, z) do NOT regenerate (ek, dk) — the CCTV notes say the unlucky keys no longer follow from their seeds; only the encaps/decaps relations are asserted.

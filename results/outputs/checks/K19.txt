@@ -1,0 +1,5 @@
+[CHECK K19] Implicit rejection, ML-KEM-512 (Impl B + Impl C) (TESTED)
+  hypothesis: A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error (FIPS 203 §7.3).
+  result: PASS
+  Impl B: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl C: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK

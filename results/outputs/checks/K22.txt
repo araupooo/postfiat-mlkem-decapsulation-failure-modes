@@ -1,0 +1,11 @@
+[CHECK K22] Implicit rejection is deterministic (J(z || c)) (TESTED)
+  hypothesis: Decapsulating the same invalid ciphertext twice returns the identical pseudorandom secret (FIPS 203 §7.3: K = J(z || c)).
+  result: PASS
+  Impl C ML-KEM-512: same invalid ct twice -> identical 32-byte secret OK
+  Impl B ML-KEM-512: same invalid ct twice -> identical 32-byte secret OK
+  Impl C ML-KEM-768: same invalid ct twice -> identical 32-byte secret OK
+  Impl A ML-KEM-768: same invalid ct twice -> identical 32-byte secret OK
+  Impl B ML-KEM-768: same invalid ct twice -> identical 32-byte secret OK
+  Impl C ML-KEM-1024: same invalid ct twice -> identical 32-byte secret OK
+  Impl A ML-KEM-1024: same invalid ct twice -> identical 32-byte secret OK
+  Impl B ML-KEM-1024: same invalid ct twice -> identical 32-byte secret OK
