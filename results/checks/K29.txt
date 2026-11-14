@@ -1,0 +1,50 @@
+[CHECK K29] CCTV strcmp + malleable-ciphertext trap cases (TESTED)
+  hypothesis: The comparison in decapsulation covers the full ciphertext: the CCTV strcmp trap (difference hidden after a NUL byte) and the malleable-ciphertext cases (modification at byte 0) all return the implicit-rejection key, never the real key.
+  result: PASS
+  Impl C ML-KEM-512 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl C ML-KEM-768 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl A ML-KEM-768 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=202: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=202: decaps == expected rejection key OK
+  NOTE: Impl B cannot run seed-pinned vectors: the liboqs Python binding has no seed/dk import API. The trap behaviour of liboqs itself is covered by K24 (bit flips at bytes 0/middle/last).

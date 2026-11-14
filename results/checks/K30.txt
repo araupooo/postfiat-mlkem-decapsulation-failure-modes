@@ -1,0 +1,8 @@
+[CHECK K30] Wycheproof semi-expanded decapsulation cases (TESTED)
+  hypothesis: Decapsulation from an expanded decapsulation key: valid cases return K; wrong-length dk or ct are rejected (FIPS 203 §7.3).
+  result: PASS
+  ML-KEM-512: 3 valid -> decaps == K OK; 6 malformed/corrupted -> rejected OK
+  ML-KEM-768: 3 valid -> decaps == K OK; 6 malformed/corrupted -> rejected OK
+  ML-KEM-1024: 3 valid -> decaps == K OK; 6 malformed/corrupted -> rejected OK
+  NOTE: Impl A and Impl B cannot run semi-expanded cases: neither binding imports a raw expanded dk (A imports only a 64-byte seed; B imports no secret key at all).
+  NOTE: the invalid correct-length cases are corrupted-key cases (AWS-LC 'corrupted hash' / 'corrupted embedded ek'): the checked entry point rejects them at key validation (FIPS 203 §7.3) before any decapsulation. A bare decapsulation without that validation would accept them silently (see F-04).

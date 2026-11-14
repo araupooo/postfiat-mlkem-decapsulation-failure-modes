@@ -1,0 +1,6 @@
+[CHECK K28] Wycheproof decapsulation cases, all parameter sets (TESTED)
+  hypothesis: Impl C passes every Wycheproof ML-KEM decapsulation case: valid cases return K, malformed-length cases are rejected.
+  result: PASS
+  160 valid cases -> decaps == K (ek verified) OK; 40 malformed-length cases -> rejected OK
+  161 valid cases -> decaps == K (ek verified) OK; 40 malformed-length cases -> rejected OK
+  162 valid cases -> decaps == K (ek verified) OK; 40 malformed-length cases -> rejected OK

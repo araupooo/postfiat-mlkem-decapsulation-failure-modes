@@ -1,0 +1,6 @@
+[CHECK K12] Impl A key/ciphertext sizes match FIPS 203 Table 2 (TESTED)
+  hypothesis: Impl A ML-KEM-768/1024 encapsulation-key, ciphertext and shared-secret sizes equal FIPS 203 Table 2 (ML-KEM-512 is not exposed by this build of pyca/cryptography; the decapsulation key is stored as the 64-byte seed, FIPS 203 §7.2 internal form).
+  result: PASS
+  ML-KEM-768: ek=1184 ct=1088 ss=32 (Table 2) OK; dk stored as 64-byte seed (d||z) OK
+  ML-KEM-1024: ek=1568 ct=1568 ss=32 (Table 2) OK; dk stored as 64-byte seed (d||z) OK
+  ML-KEM-512: NOT exposed by cryptography 50.0.2 in this environment (only MLKEM768/1024 classes exist); 512 is covered by Impl B and Impl C (K13, K01, K04, K07).

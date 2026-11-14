@@ -1,0 +1,6 @@
+[CHECK K20] Implicit rejection, ML-KEM-768 (Impl A + B + C) (TESTED)
+  hypothesis: A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error, in all three implementations.
+  result: PASS
+  Impl A: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl B: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl C: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK

@@ -1,0 +1,5 @@
+[CHECK K17] Impl A encapsulates under Impl C keys (768/1024) (TESTED)
+  hypothesis: A ciphertext produced by Impl A under an Impl C encapsulation key decapsulates to the same secret in Impl C.
+  result: PASS
+  ML-KEM-768: A.encap(C.ek) -> C.decaps = same 32-byte secret OK
+  ML-KEM-1024: A.encap(C.ek) -> C.decaps = same 32-byte secret OK

@@ -1,0 +1,6 @@
+[CHECK K25] Ciphertext from another keypair is implicitly rejected (TESTED)
+  hypothesis: A valid ciphertext under Alice's key decapsulated with Bob's key returns a 32-byte secret different from both parties' valid secrets.
+  result: PASS
+  Impl C ML-KEM-512: Alice's ct under Bob's key -> 32-byte secret != either valid secret OK
+  Impl C ML-KEM-768: Alice's ct under Bob's key -> 32-byte secret != either valid secret OK
+  Impl C ML-KEM-1024: Alice's ct under Bob's key -> 32-byte secret != either valid secret OK

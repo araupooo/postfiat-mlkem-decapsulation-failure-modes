@@ -1,0 +1,6 @@
+[CHECK K14] Impl B fresh-keypair round-trip, all parameter sets (TESTED)
+  hypothesis: Impl B encaps/decaps round-trips agree for fresh keypairs (10 per set).
+  result: PASS
+  ML-KEM-512: 10/10 fresh-keypair round-trips agree OK
+  ML-KEM-768: 10/10 fresh-keypair round-trips agree OK
+  ML-KEM-1024: 10/10 fresh-keypair round-trips agree OK

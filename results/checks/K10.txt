@@ -1,0 +1,4 @@
+[CHECK K10] Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-768 (TESTED)
+  hypothesis: Impl A reproduces the expected shared secrets for the Wycheproof seed-pinned ML-KEM-768 decapsulation cases (including the CCTV strcmp and malleable-ciphertext traps).
+  result: PASS
+  161 valid seed-pinned cases (FIPS 203 + CCTV strcmp + malleable groups): Impl A from_seed_bytes -> decaps == K, ek verified OK

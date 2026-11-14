@@ -1,0 +1,12 @@
+[CHECK K26] No oracle signal: valid vs invalid decapsulation outputs (TESTED)
+  hypothesis: Valid and invalid decapsulation are indistinguishable by return type, return length, and exception behaviour — no error signal leaks the validity of a ciphertext (timing not measured; see FINDINGS.md).
+  result: PASS
+  Impl C ML-KEM-512: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl B ML-KEM-512: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl C ML-KEM-768: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl A ML-KEM-768: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl B ML-KEM-768: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl C ML-KEM-1024: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl A ML-KEM-1024: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl B ML-KEM-1024: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  NOTE: timing side-channels are NOT measured by this harness; see FINDINGS.md F-02.

@@ -1,0 +1,11 @@
+[CHECK K33] Pinned postfiatd tree contains no ML-KEM code (TESTED)
+  hypothesis: The pinned postfiatd tree has zero ML-KEM/Kyber files: there are no ML-KEM encapsulation/decapsulation paths, ciphertext validation, or combiner logic to audit in-tree.
+  result: PASS
+  pinned commit 0085a1ff885d6a446369cf73a4430f75af22be55 OK
+  grep -ril 'ml-kem|mlkem|kyber' (whole tree, excl .git): 0 files OK
+  grep -ril 'ml-kem|mlkem|kyber' src/: 0 files OK
+  grep -ril 'post.quantum|postquantum' src/: 0 files OK
+  grep -ril 'x25519|X25519' src/: 0 files OK
+  tree crypto inventory: ed25519/secp256k1 signing only (src/libxrpl/protocol/PublicKey.cpp); no KEM, no ML-KEM call sites, no ciphertext validation, no combiner OK
+  NOTE: one 'pqc' substring hit exists inside a base64 test blob (ValidatorSite_test.cpp:47); it is test-fixture data, not ML-KEM code.
+  live re-run of the tree grep on this machine: 0 files OK

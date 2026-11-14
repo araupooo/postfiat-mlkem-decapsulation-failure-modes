@@ -1,0 +1,6 @@
+[CHECK K13] Impl B key/ciphertext sizes match FIPS 203 Table 2 (TESTED)
+  hypothesis: Impl B sizes for ML-KEM-512/768/1024 equal FIPS 203 Table 2.
+  result: PASS
+  ML-KEM-512: ek=800 ct=768 ss=32 (Table 2) OK
+  ML-KEM-768: ek=1184 ct=1088 ss=32 (Table 2) OK
+  ML-KEM-1024: ek=1568 ct=1568 ss=32 (Table 2) OK
