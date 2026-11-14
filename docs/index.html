@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ML-KEM Decapsulation Failure-Mode Assessment</title>
+<style>
+body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2em auto; padding: 0 1em; line-height: 1.5; }
+table { border-collapse: collapse; margin: 1em 0; }
+th, td { border: 1px solid #bbb; padding: 0.35em 0.6em; text-align: left; font-size: 0.9em; }
+th { background: #eee; }
+pre { background: #f6f6f6; padding: 1em; overflow-x: auto; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<h1>ML-KEM Decapsulation Failure-Mode Assessment</h1>
+<p>Audit of ML-KEM encapsulation and decapsulation failure modes across
+ML-KEM-512/768/1024: implicit rejection, decapsulation-failure oracles,
+malformed inputs, corrupted keys, comparison traps, and hybrid
+classical-plus-ML-KEM combiner behaviour. Tested with local fixtures only
+against three independent implementations (pyca/cryptography, liboqs, and a
+pure-Python FIPS 203 implementation written from the standard). No
+live-network testing, no mutation of the pinned tree.</p>
+<p>Pinned tree: postfiatd
+<code>0085a1ff885d6a446369cf73a4430f75af22be55</code>.</p>
+<p><strong>Headline finding.</strong> The pinned tree contains no ML-KEM code
+at all (F-01): there is no ML-KEM attack surface in-tree — and no ML-KEM
+capability either. Every other failure mode below was confirmed against
+reference implementations and applies to a future integration. No Critical or
+High finding.</p>
+<h2>Headline numbers</h2>
+<table>
+<tr><th>Measure</th><th>Value</th></tr>
+<tr><td>Harness checks</td><td>34 total — 34 passed, 0 failed (34 tested)</td></tr>
+<tr><td>NIST ACVP known-answer cases reproduced (Impl C)</td><td>180 (75 keyGen, 75 encapsulation, 30 decapsulation)</td></tr>
+<tr><td>Wycheproof decapsulation cases (Impl C)</td><td>603 (200/201/202 per parameter set: 152 valid + 40 malformed in the FIPS 203 group, plus 1 strcmp trap and 7–9 malleable-ciphertext cases)</td></tr>
+<tr><td>Highest severity</td><td>Medium (F-01: ML-KEM absent from the pinned tree)</td></tr>
+</table>
+<h2>Findings</h2>
+<table>
+<tr><th>ID</th><th>Severity</th><th>Status</th><th>Finding</th><th>Checks</th></tr>
+<tr><td>F-01</td><td>Medium</td><td>CONFIRMED</td><td>No ML-KEM code in the pinned tree</td><td>K33</td></tr>
+<tr><td>F-02</td><td>Low</td><td>CONFIRMED (by design)</td><td>Implicit rejection is silent — no error signal</td><td>K19–K26</td></tr>
+<tr><td>F-03</td><td>Low</td><td>CONFIRMED (traps pass)</td><td>Ciphertext comparison must cover the full ciphertext</td><td>K29, K24, K30</td></tr>
+<tr><td>F-04</td><td>Low</td><td>CONFIRMED</td><td>Decapsulation-key validation is a boundary duty</td><td>K27, K28, K30</td></tr>
+<tr><td>F-05</td><td>Low</td><td>CONFIRMED</td><td>XOR combiner leaks component secrets</td><td>K32</td></tr>
+<tr><td>F-06</td><td>Informational</td><td>CONFIRMED</td><td>Hybrid combiner failure is invisible without key confirmation</td><td>K31</td></tr>
+</table>
+<p>Full detail, impact, and concrete mitigations: <code>FINDINGS.md</code>.
+Every material claim is mapped to a runnable check or a primary-source
+citation in <code>claim_evidence_index.md</code>.</p>
+<h2>Failure-mode matrix</h2>
+<table>
+<tr><th>ID</th><th>Failure mode</th><th>ML-KEM-512</th><th>ML-KEM-768</th><th>ML-KEM-1024</th><th>Status</th><th>Checks</th></tr>
+<tr><td>FM-01</td><td>No ML-KEM code in pinned tree</td><td>absent</td><td>absent</td><td>absent</td><td>CONFIRMED</td><td>K33</td></tr>
+<tr><td>FM-02</td><td>Random invalid ciphertext accepted as valid</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>CONFIRMED (by design)</td><td>K19, K20, K21</td></tr>
+<tr><td>FM-03</td><td>All-zero ciphertext accepted as valid</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>CONFIRMED (by design)</td><td>K23</td></tr>
+<tr><td>FM-04</td><td>Single-bit-flipped ciphertext accepted as valid</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>CONFIRMED (by design)</td><td>K24</td></tr>
+<tr><td>FM-05</td><td>Ciphertext from another keypair accepted</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>rejected (implicit)</td><td>CONFIRMED (by design)</td><td>K25</td></tr>
+<tr><td>FM-06</td><td>Implicit rejection is deterministic (same invalid ct -&gt; same key)</td><td>yes</td><td>yes</td><td>yes</td><td>CONFIRMED</td><td>K22</td></tr>
+<tr><td>FM-07</td><td>Valid vs invalid decapsulation distinguishable by error/length/type</td><td>no signal</td><td>no signal</td><td>no signal</td><td>CONFIRMED</td><td>K26</td></tr>
+<tr><td>FM-08</td><td>Malformed-length ciphertext accepted</td><td>rejected (error)</td><td>rejected (error)</td><td>rejected (error)</td><td>CONFIRMED</td><td>K27, K28</td></tr>
+<tr><td>FM-09</td><td>Malformed-length decapsulation key accepted</td><td>rejected (error)</td><td>rejected (error)</td><td>rejected (error)</td><td>CONFIRMED</td><td>K27, K28, K30</td></tr>
+<tr><td>FM-10</td><td>Corrupted dk (bad stored hash / bad embedded ek) accepted</td><td>rejected (error)</td><td>rejected (error)</td><td>rejected (error)</td><td>CONFIRMED</td><td>K30</td></tr>
+<tr><td>FM-11</td><td>strcmp-style comparison fooled (difference after NUL byte)</td><td>not fooled</td><td>not fooled</td><td>not fooled</td><td>CONFIRMED</td><td>K29</td></tr>
+<tr><td>FM-12</td><td>Malleable ciphertext (byte-0 modification) missed</td><td>detected</td><td>detected</td><td>detected</td><td>CONFIRMED</td><td>K29</td></tr>
+<tr><td>FM-13</td><td>Re-encryption comparison skips part of c1/c2</td><td>detected</td><td>detected</td><td>detected</td><td>CONFIRMED</td><td>K30</td></tr>
+<tr><td>FM-14</td><td>Hybrid combiner failure raises an error</td><td>no (silent)</td><td>no (silent)</td><td>no (silent)</td><td>CONFIRMED</td><td>K31</td></tr>
+<tr><td>FM-15</td><td>XOR combiner leaks a component secret</td><td>leaks</td><td>leaks</td><td>leaks</td><td>CONFIRMED</td><td>K32</td></tr>
+<tr><td>FM-16</td><td>Cross-implementation disagreement (KAT / interop)</td><td>none found</td><td>none found</td><td>none found</td><td>CONFIRMED</td><td>K01–K18, K34</td></tr>
+</table>
+<p>"Rejected (implicit)" means decapsulation returns a 32-byte pseudorandom
+secret different from the valid secret, with no error (FIPS 203 §7.3).
+"Rejected (error)" means the checked entry point raises <code>ValueError</code>
+before returning anything.</p>
+<h2>Checks</h2>
+<table>
+<tr><th>ID</th><th>Kind</th><th>Check</th><th>Result</th></tr>
+<tr><td>K01</td><td>TESTED</td><td>NIST ACVP keyGen KAT ML-KEM-512</td><td>PASS</td></tr>
+<tr><td>K02</td><td>TESTED</td><td>NIST ACVP keyGen KAT ML-KEM-768</td><td>PASS</td></tr>
+<tr><td>K03</td><td>TESTED</td><td>NIST ACVP keyGen KAT ML-KEM-1024</td><td>PASS</td></tr>
+<tr><td>K04</td><td>TESTED</td><td>NIST ACVP encapsulation KAT ML-KEM-512</td><td>PASS</td></tr>
+<tr><td>K05</td><td>TESTED</td><td>NIST ACVP encapsulation KAT ML-KEM-768</td><td>PASS</td></tr>
+<tr><td>K06</td><td>TESTED</td><td>NIST ACVP encapsulation KAT ML-KEM-1024</td><td>PASS</td></tr>
+<tr><td>K07</td><td>TESTED</td><td>NIST ACVP decapsulation KAT ML-KEM-512</td><td>PASS</td></tr>
+<tr><td>K08</td><td>TESTED</td><td>NIST ACVP decapsulation KAT ML-KEM-768</td><td>PASS</td></tr>
+<tr><td>K09</td><td>TESTED</td><td>NIST ACVP decapsulation KAT ML-KEM-1024</td><td>PASS</td></tr>
+<tr><td>K10</td><td>TESTED</td><td>Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-768</td><td>PASS</td></tr>
+<tr><td>K11</td><td>TESTED</td><td>Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-1024</td><td>PASS</td></tr>
+<tr><td>K12</td><td>TESTED</td><td>Impl A key/ciphertext sizes match FIPS 203 Table 2</td><td>PASS</td></tr>
+<tr><td>K13</td><td>TESTED</td><td>Impl B key/ciphertext sizes match FIPS 203 Table 2</td><td>PASS</td></tr>
+<tr><td>K14</td><td>TESTED</td><td>Impl B fresh-keypair round-trip, all parameter sets</td><td>PASS</td></tr>
+<tr><td>K15</td><td>TESTED</td><td>Impl B encapsulates under Impl C keys, all parameter sets</td><td>PASS</td></tr>
+<tr><td>K16</td><td>TESTED</td><td>Impl C encapsulates under Impl B keys, all parameter sets</td><td>PASS</td></tr>
+<tr><td>K17</td><td>TESTED</td><td>Impl A encapsulates under Impl C keys (768/1024)</td><td>PASS</td></tr>
+<tr><td>K18</td><td>TESTED</td><td>Impl C encapsulates under Impl A keys (768/1024)</td><td>PASS</td></tr>
+<tr><td>K19</td><td>TESTED</td><td>Implicit rejection, ML-KEM-512 (Impl B + Impl C)</td><td>PASS</td></tr>
+<tr><td>K20</td><td>TESTED</td><td>Implicit rejection, ML-KEM-768 (Impl A + B + C)</td><td>PASS</td></tr>
+<tr><td>K21</td><td>TESTED</td><td>Implicit rejection, ML-KEM-1024 (Impl A + B + C)</td><td>PASS</td></tr>
+<tr><td>K22</td><td>TESTED</td><td>Implicit rejection is deterministic (J(z || c))</td><td>PASS</td></tr>
+<tr><td>K23</td><td>TESTED</td><td>All-zero ciphertext is implicitly rejected</td><td>PASS</td></tr>
+<tr><td>K24</td><td>TESTED</td><td>Single-bit-flipped valid ciphertext is implicitly rejected</td><td>PASS</td></tr>
+<tr><td>K25</td><td>TESTED</td><td>Ciphertext from another keypair is implicitly rejected</td><td>PASS</td></tr>
+<tr><td>K26</td><td>TESTED</td><td>No oracle signal: valid vs invalid decapsulation outputs</td><td>PASS</td></tr>
+<tr><td>K27</td><td>TESTED</td><td>Malformed-length inputs are rejected at the API boundary</td><td>PASS</td></tr>
+<tr><td>K28</td><td>TESTED</td><td>Wycheproof decapsulation cases, all parameter sets</td><td>PASS</td></tr>
+<tr><td>K29</td><td>TESTED</td><td>CCTV strcmp + malleable-ciphertext trap cases</td><td>PASS</td></tr>
+<tr><td>K30</td><td>TESTED</td><td>Wycheproof semi-expanded decapsulation cases</td><td>PASS</td></tr>
+<tr><td>K31</td><td>TESTED</td><td>Hybrid concat-KDF combiner failure behaviour</td><td>PASS</td></tr>
+<tr><td>K32</td><td>TESTED</td><td>Hybrid XOR combiner leaks component secrets</td><td>PASS</td></tr>
+<tr><td>K33</td><td>TESTED</td><td>Pinned postfiatd tree contains no ML-KEM code</td><td>PASS</td></tr>
+<tr><td>K34</td><td>TESTED</td><td>CCTV unlucky-SampleNTT vectors, all parameter sets</td><td>PASS</td></tr>
+</table>
+<p>Per-check outputs: <code>results/checks/</code>. Full raw log:
+<code>results/run_log.txt</code> (tail below).</p>
+<h2>Reproduction</h2>
+<pre>bash run_all.sh</pre>
+<p>Regenerates every derived output offline from the vendored fixtures,
+rebuilds this page, and verifies digests. Expected: exit 0, byte-identical
+outputs, clean git status. See <code>REPRODUCTION.md</code> for the exact
+commands and recorded results, and
+<code>results/digest_check_output.txt</code> for the raw digest-check output.
+Verify digests at any time with <code>bash verify_digests.sh --check</code>.
+Fresh-clean-setup logs (all batteries re-run) are under
+<code>results/outputs/</code>.</p>
+<h2>Run log (last 40 lines)</h2>
+<pre>  ML-KEM-768: valid hybrid reproducible (32 bytes) OK
+  ML-KEM-768: invalid ML-KEM ct -&gt; hybrid differs, no error (silent failure) OK
+  ML-KEM-768: wrong classical peer -&gt; hybrid differs, no error (silent failure) OK
+  ML-KEM-768: transcript binding changes the hybrid key OK
+  ML-KEM-768: malformed combiner inputs rejected OK
+  ML-KEM-1024: valid hybrid reproducible (32 bytes) OK
+  ML-KEM-1024: invalid ML-KEM ct -&gt; hybrid differs, no error (silent failure) OK
+  ML-KEM-1024: wrong classical peer -&gt; hybrid differs, no error (silent failure) OK
+  ML-KEM-1024: transcript binding changes the hybrid key OK
+  ML-KEM-1024: malformed combiner inputs rejected OK
+  FINDING: neither component failure raises an error at the combiner layer; detection requires a key-confirmation step (see F-06).
+
+[CHECK K32] Hybrid XOR combiner leaks component secrets (TESTED)
+  hypothesis: An XOR combiner (hybrid = classical XOR ML-KEM): an invalid ML-KEM ciphertext changes the hybrid silently, and knowledge of one component recovers the other from the hybrid output.
+  result: PASS
+  invalid ML-KEM ct -&gt; XOR hybrid differs, no error OK
+  hybrid XOR classical == ML-KEM secret: an attacker who learns the classical component recovers the ML-KEM component exactly OK
+  FINDING: prefer the concat-KDF combiner (K31); the XOR combiner must never be used where either component may be attacker-known (see F-05).
+
+[CHECK K33] Pinned postfiatd tree contains no ML-KEM code (TESTED)
+  hypothesis: The pinned postfiatd tree has zero ML-KEM/Kyber files: there are no ML-KEM encapsulation/decapsulation paths, ciphertext validation, or combiner logic to audit in-tree.
+  result: PASS
+  pinned commit 0085a1ff885d6a446369cf73a4430f75af22be55 OK
+  grep -ril &#x27;ml-kem|mlkem|kyber&#x27; (whole tree, excl .git): 0 files OK
+  grep -ril &#x27;ml-kem|mlkem|kyber&#x27; src/: 0 files OK
+  grep -ril &#x27;post.quantum|postquantum&#x27; src/: 0 files OK
+  grep -ril &#x27;x25519|X25519&#x27; src/: 0 files OK
+  tree crypto inventory: ed25519/secp256k1 signing only (src/libxrpl/protocol/PublicKey.cpp); no KEM, no ML-KEM call sites, no ciphertext validation, no combiner OK
+  NOTE: one &#x27;pqc&#x27; substring hit exists inside a base64 test blob (ValidatorSite_test.cpp:47); it is test-fixture data, not ML-KEM code.
+  live re-run of the tree grep on this machine: 0 files OK
+
+[CHECK K34] CCTV unlucky-SampleNTT vectors, all parameter sets (TESTED)
+  hypothesis: Impl C reproduces the CCTV &#x27;unlucky&#x27; vectors: encapsulation of m under the file&#x27;s ek gives exactly the file&#x27;s K and c, and decapsulation of c under the file&#x27;s dk returns K. These keys need an unusually large number of XOF reads in SampleNTT, so they exercise the sampler&#x27;s stream sizing.
+  result: PASS
+  ML-KEM-512: encaps(m) == (K, c) and decaps(c) == K OK
+  ML-KEM-768: encaps(m) == (K, c) and decaps(c) == K OK
+  ML-KEM-1024: encaps(m) == (K, c) and decaps(c) == K OK
+  NOTE: the file&#x27;s (d, z) do NOT regenerate (ek, dk) — the CCTV notes say the unlucky keys no longer follow from their seeds; only the encaps/decaps relations are asserted.
+
+checks: 34 total, 34 passed, 0 failed</pre>
+<h2>Digest check output</h2>
+<p>The raw digest-check output is <code>results/digest_check_output.txt</code>
+(all manifest files OK). It is deliberately not embedded in this page: the
+digest output is produced after this page is built, so embedding it would make
+the page lag one run behind the manifest and a fresh-copy regeneration would
+leave git status dirty whenever manifest membership changed.</p>
+<h2>Files</h2>
+<ul>
+<li><code>README.md</code> — scope, method, how to reproduce</li>
+<li><code>SCOPE_MAP.md</code> — pinned-tree audit and integration points</li>
+<li><code>FINDINGS.md</code> — failure-mode matrix, prioritized findings with concrete mitigations and limitations</li>
+<li><code>claim_evidence_index.md</code> — every material claim mapped to a runnable check or a primary-source citation</li>
+<li><code>SOURCES.md</code> — primary sources and fixture provenance</li>
+<li><code>scripts/mlkem_py.py</code> — pure-Python FIPS 203 implementation (Impl C)</li>
+<li><code>scripts/run_checks.py</code> — the local-fixture harness (34 checks)</li>
+<li><code>fixtures/</code> — NIST ACVP vectors, Wycheproof vectors, CCTV unlucky vectors, FIPS 203 constants</li>
+<li><code>results/run_log.txt</code>, <code>results/summary.json</code>, <code>results/summary.txt</code> — harness outputs</li>
+<li><code>results/checks/</code> — per-check outputs</li>
+<li><code>results/outputs/</code> — fresh clean-setup run logs (all batteries)</li>
+<li><code>results/SHA256SUMS</code> — digest manifest</li>
+</ul>
+</body>
+</html>
