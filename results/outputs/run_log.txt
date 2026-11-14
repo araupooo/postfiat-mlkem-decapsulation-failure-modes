@@ -1,0 +1,306 @@
+liboqs-python faulthandler is disabled
+ML-KEM decapsulation failure-mode harness
+pinned postfiatd commit: 0085a1ff885d6a446369cf73a4430f75af22be55
+implementations: A=pyca/cryptography 50.0.2 (OpenSSL), B=liboqs 0.16.0, C=pure-Python FIPS 203
+checks: 34 total, 34 passed, 0 failed
+[CHECK K01] NIST ACVP keyGen KAT ML-KEM-512 (TESTED)
+  hypothesis: Impl C reproduces the NIST ACVP keyGen vectors for ML-KEM-512 exactly.
+  result: PASS
+  25 keyGen cases: d,z -> ek,dk byte-identical to NIST ACVP vectors (FIPS203) OK
+
+[CHECK K02] NIST ACVP keyGen KAT ML-KEM-768 (TESTED)
+  hypothesis: Impl C reproduces the NIST ACVP keyGen vectors for ML-KEM-768 exactly.
+  result: PASS
+  25 keyGen cases: d,z -> ek,dk byte-identical to NIST ACVP vectors (FIPS203) OK
+
+[CHECK K03] NIST ACVP keyGen KAT ML-KEM-1024 (TESTED)
+  hypothesis: Impl C reproduces the NIST ACVP keyGen vectors for ML-KEM-1024 exactly.
+  result: PASS
+  25 keyGen cases: d,z -> ek,dk byte-identical to NIST ACVP vectors (FIPS203) OK
+
+[CHECK K04] NIST ACVP encapsulation KAT ML-KEM-512 (TESTED)
+  hypothesis: Impl C Encaps_internal reproduces the NIST ACVP vectors for ML-KEM-512.
+  result: PASS
+  25 encapsulation cases: (ek, m) -> (c, K) byte-identical to NIST ACVP vectors OK
+
+[CHECK K05] NIST ACVP encapsulation KAT ML-KEM-768 (TESTED)
+  hypothesis: Impl C Encaps_internal reproduces the NIST ACVP vectors for ML-KEM-768.
+  result: PASS
+  25 encapsulation cases: (ek, m) -> (c, K) byte-identical to NIST ACVP vectors OK
+
+[CHECK K06] NIST ACVP encapsulation KAT ML-KEM-1024 (TESTED)
+  hypothesis: Impl C Encaps_internal reproduces the NIST ACVP vectors for ML-KEM-1024.
+  result: PASS
+  25 encapsulation cases: (ek, m) -> (c, K) byte-identical to NIST ACVP vectors OK
+
+[CHECK K07] NIST ACVP decapsulation KAT ML-KEM-512 (TESTED)
+  hypothesis: Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-512.
+  result: PASS
+  10 decapsulation cases: (dk, c) -> K byte-identical to NIST ACVP vectors OK
+
+[CHECK K08] NIST ACVP decapsulation KAT ML-KEM-768 (TESTED)
+  hypothesis: Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-768.
+  result: PASS
+  10 decapsulation cases: (dk, c) -> K byte-identical to NIST ACVP vectors OK
+
+[CHECK K09] NIST ACVP decapsulation KAT ML-KEM-1024 (TESTED)
+  hypothesis: Impl C Decaps_internal reproduces the NIST ACVP vectors for ML-KEM-1024.
+  result: PASS
+  10 decapsulation cases: (dk, c) -> K byte-identical to NIST ACVP vectors OK
+
+[CHECK K10] Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-768 (TESTED)
+  hypothesis: Impl A reproduces the expected shared secrets for the Wycheproof seed-pinned ML-KEM-768 decapsulation cases (including the CCTV strcmp and malleable-ciphertext traps).
+  result: PASS
+  161 valid seed-pinned cases (FIPS 203 + CCTV strcmp + malleable groups): Impl A from_seed_bytes -> decaps == K, ek verified OK
+
+[CHECK K11] Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-1024 (TESTED)
+  hypothesis: Impl A reproduces the expected shared secrets for the Wycheproof seed-pinned ML-KEM-1024 decapsulation cases (including the CCTV strcmp and malleable-ciphertext traps).
+  result: PASS
+  162 valid seed-pinned cases (FIPS 203 + CCTV strcmp + malleable groups): Impl A from_seed_bytes -> decaps == K, ek verified OK
+
+[CHECK K12] Impl A key/ciphertext sizes match FIPS 203 Table 2 (TESTED)
+  hypothesis: Impl A ML-KEM-768/1024 encapsulation-key, ciphertext and shared-secret sizes equal FIPS 203 Table 2 (ML-KEM-512 is not exposed by this build of pyca/cryptography; the decapsulation key is stored as the 64-byte seed, FIPS 203 §7.2 internal form).
+  result: PASS
+  ML-KEM-768: ek=1184 ct=1088 ss=32 (Table 2) OK; dk stored as 64-byte seed (d||z) OK
+  ML-KEM-1024: ek=1568 ct=1568 ss=32 (Table 2) OK; dk stored as 64-byte seed (d||z) OK
+  ML-KEM-512: NOT exposed by cryptography 50.0.2 in this environment (only MLKEM768/1024 classes exist); 512 is covered by Impl B and Impl C (K13, K01, K04, K07).
+
+[CHECK K13] Impl B key/ciphertext sizes match FIPS 203 Table 2 (TESTED)
+  hypothesis: Impl B sizes for ML-KEM-512/768/1024 equal FIPS 203 Table 2.
+  result: PASS
+  ML-KEM-512: ek=800 ct=768 ss=32 (Table 2) OK
+  ML-KEM-768: ek=1184 ct=1088 ss=32 (Table 2) OK
+  ML-KEM-1024: ek=1568 ct=1568 ss=32 (Table 2) OK
+
+[CHECK K14] Impl B fresh-keypair round-trip, all parameter sets (TESTED)
+  hypothesis: Impl B encaps/decaps round-trips agree for fresh keypairs (10 per set).
+  result: PASS
+  ML-KEM-512: 10/10 fresh-keypair round-trips agree OK
+  ML-KEM-768: 10/10 fresh-keypair round-trips agree OK
+  ML-KEM-1024: 10/10 fresh-keypair round-trips agree OK
+
+[CHECK K15] Impl B encapsulates under Impl C keys, all parameter sets (TESTED)
+  hypothesis: A ciphertext produced by Impl B under an Impl C encapsulation key decapsulates to the same secret in Impl C (FIPS 203 wire-format interop).
+  result: PASS
+  ML-KEM-512: B.encap(C.ek) -> C.decaps = same 32-byte secret OK
+  ML-KEM-768: B.encap(C.ek) -> C.decaps = same 32-byte secret OK
+  ML-KEM-1024: B.encap(C.ek) -> C.decaps = same 32-byte secret OK
+
+[CHECK K16] Impl C encapsulates under Impl B keys, all parameter sets (TESTED)
+  hypothesis: A ciphertext produced by Impl C under an Impl B encapsulation key decapsulates to the same secret in Impl B.
+  result: PASS
+  ML-KEM-512: C.encaps(B.ek) -> B.decaps = same 32-byte secret OK
+  ML-KEM-768: C.encaps(B.ek) -> B.decaps = same 32-byte secret OK
+  ML-KEM-1024: C.encaps(B.ek) -> B.decaps = same 32-byte secret OK
+
+[CHECK K17] Impl A encapsulates under Impl C keys (768/1024) (TESTED)
+  hypothesis: A ciphertext produced by Impl A under an Impl C encapsulation key decapsulates to the same secret in Impl C.
+  result: PASS
+  ML-KEM-768: A.encap(C.ek) -> C.decaps = same 32-byte secret OK
+  ML-KEM-1024: A.encap(C.ek) -> C.decaps = same 32-byte secret OK
+
+[CHECK K18] Impl C encapsulates under Impl A keys (768/1024) (TESTED)
+  hypothesis: A ciphertext produced by Impl C under an Impl A encapsulation key decapsulates to the same secret in Impl A.
+  result: PASS
+  ML-KEM-768: C.encaps(A.ek) -> A.decaps = same 32-byte secret OK
+  ML-KEM-1024: C.encaps(A.ek) -> A.decaps = same 32-byte secret OK
+
+[CHECK K19] Implicit rejection, ML-KEM-512 (Impl B + Impl C) (TESTED)
+  hypothesis: A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error (FIPS 203 §7.3).
+  result: PASS
+  Impl B: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl C: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+
+[CHECK K20] Implicit rejection, ML-KEM-768 (Impl A + B + C) (TESTED)
+  hypothesis: A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error, in all three implementations.
+  result: PASS
+  Impl A: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl B: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl C: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+
+[CHECK K21] Implicit rejection, ML-KEM-1024 (Impl A + B + C) (TESTED)
+  hypothesis: A random invalid ciphertext decapsulates to a 32-byte secret that is not the valid secret, with no error, in all three implementations.
+  result: PASS
+  Impl A: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl B: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+  Impl C: 10/10 random invalid ciphertexts -> 32-byte secret, no error, != valid secret OK
+
+[CHECK K22] Implicit rejection is deterministic (J(z || c)) (TESTED)
+  hypothesis: Decapsulating the same invalid ciphertext twice returns the identical pseudorandom secret (FIPS 203 §7.3: K = J(z || c)).
+  result: PASS
+  Impl C ML-KEM-512: same invalid ct twice -> identical 32-byte secret OK
+  Impl B ML-KEM-512: same invalid ct twice -> identical 32-byte secret OK
+  Impl C ML-KEM-768: same invalid ct twice -> identical 32-byte secret OK
+  Impl A ML-KEM-768: same invalid ct twice -> identical 32-byte secret OK
+  Impl B ML-KEM-768: same invalid ct twice -> identical 32-byte secret OK
+  Impl C ML-KEM-1024: same invalid ct twice -> identical 32-byte secret OK
+  Impl A ML-KEM-1024: same invalid ct twice -> identical 32-byte secret OK
+  Impl B ML-KEM-1024: same invalid ct twice -> identical 32-byte secret OK
+
+[CHECK K23] All-zero ciphertext is implicitly rejected (TESTED)
+  hypothesis: An all-zero ciphertext decapsulates to a 32-byte secret different from the valid secret, with no error.
+  result: PASS
+  Impl C ML-KEM-512: zero ct -> 32-byte secret != valid OK
+  Impl B ML-KEM-512: zero ct -> 32-byte secret != valid OK
+  Impl C ML-KEM-768: zero ct -> 32-byte secret != valid OK
+  Impl A ML-KEM-768: zero ct -> 32-byte secret != valid OK
+  Impl B ML-KEM-768: zero ct -> 32-byte secret != valid OK
+  Impl C ML-KEM-1024: zero ct -> 32-byte secret != valid OK
+  Impl A ML-KEM-1024: zero ct -> 32-byte secret != valid OK
+  Impl B ML-KEM-1024: zero ct -> 32-byte secret != valid OK
+
+[CHECK K24] Single-bit-flipped valid ciphertext is implicitly rejected (TESTED)
+  hypothesis: Flipping one bit of a valid ciphertext makes decapsulation return a different 32-byte secret with no error (re-encryption mismatch).
+  result: PASS
+  Impl C ML-KEM-512: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl B ML-KEM-512: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl C ML-KEM-768: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl A ML-KEM-768: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl B ML-KEM-768: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl C ML-KEM-1024: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl A ML-KEM-1024: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+  Impl B ML-KEM-1024: bit flips at bytes 0, middle, last -> 32-byte secret != valid, no error OK
+
+[CHECK K25] Ciphertext from another keypair is implicitly rejected (TESTED)
+  hypothesis: A valid ciphertext under Alice's key decapsulated with Bob's key returns a 32-byte secret different from both parties' valid secrets.
+  result: PASS
+  Impl C ML-KEM-512: Alice's ct under Bob's key -> 32-byte secret != either valid secret OK
+  Impl C ML-KEM-768: Alice's ct under Bob's key -> 32-byte secret != either valid secret OK
+  Impl C ML-KEM-1024: Alice's ct under Bob's key -> 32-byte secret != either valid secret OK
+
+[CHECK K26] No oracle signal: valid vs invalid decapsulation outputs (TESTED)
+  hypothesis: Valid and invalid decapsulation are indistinguishable by return type, return length, and exception behaviour — no error signal leaks the validity of a ciphertext (timing not measured; see FINDINGS.md).
+  result: PASS
+  Impl C ML-KEM-512: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl B ML-KEM-512: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl C ML-KEM-768: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl A ML-KEM-768: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl B ML-KEM-768: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl C ML-KEM-1024: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl A ML-KEM-1024: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  Impl B ML-KEM-1024: valid/invalid both -> (bytes, 32, no exception); outputs differ OK
+  NOTE: timing side-channels are NOT measured by this harness; see FINDINGS.md F-02.
+
+[CHECK K27] Malformed-length inputs are rejected at the API boundary (TESTED)
+  hypothesis: Truncated, empty, and oversized ciphertexts and decapsulation keys are rejected with an error (never a secret) by every implementation's checked entry point (FIPS 203 §7.2/§7.3 input validation).
+  result: PASS
+  Impl C ML-KEM-512: 6 malformed inputs -> ValueError OK
+  Impl B ML-KEM-512: 3 malformed ciphertexts -> ValueError OK
+  Impl C ML-KEM-768: 6 malformed inputs -> ValueError OK
+  Impl A ML-KEM-768: 3 malformed ciphertexts -> ValueError OK
+  Impl B ML-KEM-768: 3 malformed ciphertexts -> ValueError OK
+  Impl C ML-KEM-1024: 6 malformed inputs -> ValueError OK
+  Impl A ML-KEM-1024: 3 malformed ciphertexts -> ValueError OK
+  Impl B ML-KEM-1024: 3 malformed ciphertexts -> ValueError OK
+  NOTE: the bare FIPS 203 pseudocode (Algorithms 16-18) assumes well-formed inputs; length validation is a deployment requirement, not part of the math (F-04).
+
+[CHECK K28] Wycheproof decapsulation cases, all parameter sets (TESTED)
+  hypothesis: Impl C passes every Wycheproof ML-KEM decapsulation case: valid cases return K, malformed-length cases are rejected.
+  result: PASS
+  160 valid cases -> decaps == K (ek verified) OK; 40 malformed-length cases -> rejected OK
+  161 valid cases -> decaps == K (ek verified) OK; 40 malformed-length cases -> rejected OK
+  162 valid cases -> decaps == K (ek verified) OK; 40 malformed-length cases -> rejected OK
+
+[CHECK K29] CCTV strcmp + malleable-ciphertext trap cases (TESTED)
+  hypothesis: The comparison in decapsulation covers the full ciphertext: the CCTV strcmp trap (difference hidden after a NUL byte) and the malleable-ciphertext cases (modification at byte 0) all return the implicit-rejection key, never the real key.
+  result: PASS
+  Impl C ML-KEM-512 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl C ML-KEM-512 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl C ML-KEM-768 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl C ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl A ML-KEM-768 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl A ML-KEM-768 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl C ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=202: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 CCTV/strcmp tcId=1: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=194: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=195: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=196: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=197: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=198: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=199: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=200: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=201: decaps == expected rejection key OK
+  Impl A ML-KEM-1024 github.com/007bsd/mlkem-implicit-rejection tcId=202: decaps == expected rejection key OK
+  NOTE: Impl B cannot run seed-pinned vectors: the liboqs Python binding has no seed/dk import API. The trap behaviour of liboqs itself is covered by K24 (bit flips at bytes 0/middle/last).
+
+[CHECK K30] Wycheproof semi-expanded decapsulation cases (TESTED)
+  hypothesis: Decapsulation from an expanded decapsulation key: valid cases return K; wrong-length dk or ct are rejected (FIPS 203 §7.3).
+  result: PASS
+  ML-KEM-512: 3 valid -> decaps == K OK; 6 malformed/corrupted -> rejected OK
+  ML-KEM-768: 3 valid -> decaps == K OK; 6 malformed/corrupted -> rejected OK
+  ML-KEM-1024: 3 valid -> decaps == K OK; 6 malformed/corrupted -> rejected OK
+  NOTE: Impl A and Impl B cannot run semi-expanded cases: neither binding imports a raw expanded dk (A imports only a 64-byte seed; B imports no secret key at all).
+  NOTE: the invalid correct-length cases are corrupted-key cases (AWS-LC 'corrupted hash' / 'corrupted embedded ek'): the checked entry point rejects them at key validation (FIPS 203 §7.3) before any decapsulation. A bare decapsulation without that validation would accept them silently (see F-04).
+
+[CHECK K31] Hybrid concat-KDF combiner failure behaviour (TESTED)
+  hypothesis: A hybrid combiner built from X25519 + ML-KEM: a valid run is reproducible; an invalid ML-KEM ciphertext or a wrong classical peer key changes the hybrid secret silently (no error); malformed combiner inputs are rejected. Only key confirmation can detect the failure.
+  result: PASS
+  ML-KEM-768: valid hybrid reproducible (32 bytes) OK
+  ML-KEM-768: invalid ML-KEM ct -> hybrid differs, no error (silent failure) OK
+  ML-KEM-768: wrong classical peer -> hybrid differs, no error (silent failure) OK
+  ML-KEM-768: transcript binding changes the hybrid key OK
+  ML-KEM-768: malformed combiner inputs rejected OK
+  ML-KEM-1024: valid hybrid reproducible (32 bytes) OK
+  ML-KEM-1024: invalid ML-KEM ct -> hybrid differs, no error (silent failure) OK
+  ML-KEM-1024: wrong classical peer -> hybrid differs, no error (silent failure) OK
+  ML-KEM-1024: transcript binding changes the hybrid key OK
+  ML-KEM-1024: malformed combiner inputs rejected OK
+  FINDING: neither component failure raises an error at the combiner layer; detection requires a key-confirmation step (see F-06).
+
+[CHECK K32] Hybrid XOR combiner leaks component secrets (TESTED)
+  hypothesis: An XOR combiner (hybrid = classical XOR ML-KEM): an invalid ML-KEM ciphertext changes the hybrid silently, and knowledge of one component recovers the other from the hybrid output.
+  result: PASS
+  invalid ML-KEM ct -> XOR hybrid differs, no error OK
+  hybrid XOR classical == ML-KEM secret: an attacker who learns the classical component recovers the ML-KEM component exactly OK
+  FINDING: prefer the concat-KDF combiner (K31); the XOR combiner must never be used where either component may be attacker-known (see F-05).
+
+[CHECK K33] Pinned postfiatd tree contains no ML-KEM code (TESTED)
+  hypothesis: The pinned postfiatd tree has zero ML-KEM/Kyber files: there are no ML-KEM encapsulation/decapsulation paths, ciphertext validation, or combiner logic to audit in-tree.
+  result: PASS
+  pinned commit 0085a1ff885d6a446369cf73a4430f75af22be55 OK
+  grep -ril 'ml-kem|mlkem|kyber' (whole tree, excl .git): 0 files OK
+  grep -ril 'ml-kem|mlkem|kyber' src/: 0 files OK
+  grep -ril 'post.quantum|postquantum' src/: 0 files OK
+  grep -ril 'x25519|X25519' src/: 0 files OK
+  tree crypto inventory: ed25519/secp256k1 signing only (src/libxrpl/protocol/PublicKey.cpp); no KEM, no ML-KEM call sites, no ciphertext validation, no combiner OK
+  NOTE: one 'pqc' substring hit exists inside a base64 test blob (ValidatorSite_test.cpp:47); it is test-fixture data, not ML-KEM code.
+  live re-run of the tree grep on this machine: 0 files OK
+
+[CHECK K34] CCTV unlucky-SampleNTT vectors, all parameter sets (TESTED)
+  hypothesis: Impl C reproduces the CCTV 'unlucky' vectors: encapsulation of m under the file's ek gives exactly the file's K and c, and decapsulation of c under the file's dk returns K. These keys need an unusually large number of XOF reads in SampleNTT, so they exercise the sampler's stream sizing.
+  result: PASS
+  ML-KEM-512: encaps(m) == (K, c) and decaps(c) == K OK
+  ML-KEM-768: encaps(m) == (K, c) and decaps(c) == K OK
+  ML-KEM-1024: encaps(m) == (K, c) and decaps(c) == K OK
+  NOTE: the file's (d, z) do NOT regenerate (ek, dk) — the CCTV notes say the unlucky keys no longer follow from their seeds; only the encaps/decaps relations are asserted.
+
+checks: 34 total, 34 passed, 0 failed

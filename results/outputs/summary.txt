@@ -1,0 +1,35 @@
+checks: 34 total, 34 passed, 0 failed
+K01 [TESTED] NIST ACVP keyGen KAT ML-KEM-512: PASS
+K02 [TESTED] NIST ACVP keyGen KAT ML-KEM-768: PASS
+K03 [TESTED] NIST ACVP keyGen KAT ML-KEM-1024: PASS
+K04 [TESTED] NIST ACVP encapsulation KAT ML-KEM-512: PASS
+K05 [TESTED] NIST ACVP encapsulation KAT ML-KEM-768: PASS
+K06 [TESTED] NIST ACVP encapsulation KAT ML-KEM-1024: PASS
+K07 [TESTED] NIST ACVP decapsulation KAT ML-KEM-512: PASS
+K08 [TESTED] NIST ACVP decapsulation KAT ML-KEM-768: PASS
+K09 [TESTED] NIST ACVP decapsulation KAT ML-KEM-1024: PASS
+K10 [TESTED] Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-768: PASS
+K11 [TESTED] Impl A decapsulation of Wycheproof seed-pinned ciphertexts ML-KEM-1024: PASS
+K12 [TESTED] Impl A key/ciphertext sizes match FIPS 203 Table 2: PASS
+K13 [TESTED] Impl B key/ciphertext sizes match FIPS 203 Table 2: PASS
+K14 [TESTED] Impl B fresh-keypair round-trip, all parameter sets: PASS
+K15 [TESTED] Impl B encapsulates under Impl C keys, all parameter sets: PASS
+K16 [TESTED] Impl C encapsulates under Impl B keys, all parameter sets: PASS
+K17 [TESTED] Impl A encapsulates under Impl C keys (768/1024): PASS
+K18 [TESTED] Impl C encapsulates under Impl A keys (768/1024): PASS
+K19 [TESTED] Implicit rejection, ML-KEM-512 (Impl B + Impl C): PASS
+K20 [TESTED] Implicit rejection, ML-KEM-768 (Impl A + B + C): PASS
+K21 [TESTED] Implicit rejection, ML-KEM-1024 (Impl A + B + C): PASS
+K22 [TESTED] Implicit rejection is deterministic (J(z || c)): PASS
+K23 [TESTED] All-zero ciphertext is implicitly rejected: PASS
+K24 [TESTED] Single-bit-flipped valid ciphertext is implicitly rejected: PASS
+K25 [TESTED] Ciphertext from another keypair is implicitly rejected: PASS
+K26 [TESTED] No oracle signal: valid vs invalid decapsulation outputs: PASS
+K27 [TESTED] Malformed-length inputs are rejected at the API boundary: PASS
+K28 [TESTED] Wycheproof decapsulation cases, all parameter sets: PASS
+K29 [TESTED] CCTV strcmp + malleable-ciphertext trap cases: PASS
+K30 [TESTED] Wycheproof semi-expanded decapsulation cases: PASS
+K31 [TESTED] Hybrid concat-KDF combiner failure behaviour: PASS
+K32 [TESTED] Hybrid XOR combiner leaks component secrets: PASS
+K33 [TESTED] Pinned postfiatd tree contains no ML-KEM code: PASS
+K34 [TESTED] CCTV unlucky-SampleNTT vectors, all parameter sets: PASS
