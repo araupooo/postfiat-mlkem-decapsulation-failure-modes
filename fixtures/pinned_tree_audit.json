@@ -1,0 +1,48 @@
+{
+  "pinned_commit": "0085a1ff885d6a446369cf73a4430f75af22be55",
+  "tree": "/home/hatch/workspace/postfiatd-amendment/worktree-0085a1ff",
+  "checks": [
+    {
+      "cmd": "grep -ril 'ml-kem\\|mlkem\\|kyber' . | grep -v '^\\./\\.git/' | wc -l",
+      "exit": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "grep -ril 'ml-kem\\|mlkem\\|kyber' src/ | wc -l",
+      "exit": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "grep -ril 'post.quantum\\|postquantum' src/ | head -20",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "grep -ril 'x25519\\|X25519' src/ | wc -l",
+      "exit": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "grep -rn 'ed25519' src/libxrpl/protocol/PublicKey.cpp | head -5",
+      "exit": 0,
+      "stdout": "34:#include <ed25519.h>\n172:ed25519Canonical(Slice const& sig)\n229:            return KeyType::ed25519;\n302:        else if (*type == KeyType::ed25519)\n304:            if (!ed25519Canonical(sig))\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "git rev-parse HEAD",
+      "exit": 0,
+      "stdout": "0085a1ff885d6a446369cf73a4430f75af22be55\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "git log --oneline -1",
+      "exit": 0,
+      "stdout": "0085a1f Merge pull request #50 from postfiatorg/hotfix/upstream-hardening-1.0.9\n",
+      "stderr": ""
+    }
+  ]
+}
